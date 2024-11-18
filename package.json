@@ -1,0 +1,43 @@
+{
+  "name": "@coin-mirror/blob",
+  "version": "0.1.1",
+  "type": "module",
+  "module": "src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./upload/server": {
+      "import": "./dist/upload/server.js",
+      "types": "./dist/upload/server.d.ts"
+    },
+    "./upload/client": {
+      "import": "./dist/upload/client.js",
+      "types": "./dist/upload/client.d.ts"
+    }
+  },
+  "main": "dist/index.js",
+  "author": "Maximilian Pfennig <max@coin-mirror.org>",
+  "repository": "https://github.com/coin-mirror/blob",
+  "bugs": {
+    "url": "https://github.com/coin-mirror/blob/issues",
+    "email": "tech@coin-mirror.org"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.693.0",
+    "@aws-sdk/s3-request-presigner": "^3.693.0",
+    "nanoid": "^5.0.8",
+    "zod": "^3.23.8"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "bun run build"
+  }
+}
