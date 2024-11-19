@@ -1,6 +1,6 @@
 {
   "name": "@coin-mirror/blob",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "module",
   "module": "src/index.ts",
   "exports": {
