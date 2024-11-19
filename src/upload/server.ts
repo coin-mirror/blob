@@ -25,6 +25,7 @@ export const uploadHandler = async (
 ) => {
   const body = validateHandleUploadBody(await req.json());
   if ("error" in body) {
+    console.warn("Invalid request body on requesting upload URL", body.error);
     return new Response(
       JSON.stringify({
         error: "Invalid request body",
@@ -94,6 +95,7 @@ export const uploadHandler = async (
       },
     );
   } catch (error) {
+    console.error("Error requesting upload URL", error);
     return new Response(
       JSON.stringify({
         error: "Internal server error",
