@@ -48,7 +48,7 @@ export const myBucket: Bucket = {
     },
   },
   name: "public-avatars", // The name of the bucket
-  publicUrl: "public-avatars.cdn.example.com", // Required to access the file later in the process
+  publicUrl: "https://public-avatars.cdn.example.com", // Required to access the file later in the process
 };
 ```
 
