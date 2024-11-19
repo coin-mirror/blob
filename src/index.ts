@@ -2,6 +2,7 @@ import {
   DeleteObjectCommand,
   GetObjectCommand,
   HeadObjectCommand,
+  NotFound,
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
@@ -36,12 +37,21 @@ export const exists = async (
   path: string,
 ): Promise<boolean> => {
   const client = new S3Client(bucket.connection);
-  const res = await client.send(
-    new HeadObjectCommand({
-      Bucket: bucket.name,
-      Key: path,
-    }),
-  );
+  const res = await client
+    .send(
+      new HeadObjectCommand({
+        Bucket: bucket.name,
+        Key: path,
+      }),
+    )
+    .catch((err) => {
+      if (err instanceof NotFound) {
+        return {
+          ContentLength: undefined,
+        };
+      }
+      throw err;
+    });
 
   return res.ContentLength !== undefined;
 };
@@ -51,14 +61,21 @@ export const get = async (
   path: string,
 ): Promise<Buffer | null> => {
   const client = new S3Client(bucket.connection);
-  const res = await client.send(
-    new GetObjectCommand({
-      Bucket: bucket.name,
-      Key: path,
-    }),
-  );
+  const res = await client
+    .send(
+      new GetObjectCommand({
+        Bucket: bucket.name,
+        Key: path,
+      }),
+    )
+    .catch((err) => {
+      if (err instanceof NotFound) {
+        return null;
+      }
+      throw err;
+    });
 
-  return res.Body ? Buffer.from(await res.Body.transformToByteArray()) : null;
+  return res?.Body ? Buffer.from(await res.Body.transformToByteArray()) : null;
 };
 
 export const deleteFile = async (
@@ -66,9 +83,14 @@ export const deleteFile = async (
   path: string,
 ): Promise<void> => {
   const client = new S3Client(bucket.connection);
-  await client.send(
-    new DeleteObjectCommand({ Bucket: bucket.name, Key: path }),
-  );
+  await client
+    .send(new DeleteObjectCommand({ Bucket: bucket.name, Key: path }))
+    .catch((err) => {
+      if (err instanceof NotFound) {
+        return;
+      }
+      throw err;
+    });
 };
 
 export const getStreamed = async (
