@@ -80,11 +80,11 @@ export const uploadHandler = async (
       expiresIn: 3600,
     });
 
-    const resultUrl = new URL(bucket.publicUrl, path);
+    const resultUrl = new URL(path, bucket.publicUrl).toString();
     return new Response(
       JSON.stringify({
         uploadUrl: url,
-        resultUrl: resultUrl.toString(),
+        resultUrl,
       }),
       {
         status: 200,
