@@ -1,6 +1,6 @@
 {
   "name": "@coin-mirror/blob",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "type": "module",
   "module": "src/index.ts",
   "exports": {
@@ -19,7 +19,10 @@
   },
   "main": "dist/index.js",
   "author": "Maximilian Pfennig <max@coin-mirror.org>",
-  "repository": "https://github.com/coin-mirror/blob",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coin-mirror/blob.git"
+  },
   "bugs": {
     "url": "https://github.com/coin-mirror/blob/issues",
     "email": "tech@coin-mirror.org"

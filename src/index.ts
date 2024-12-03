@@ -24,7 +24,7 @@ export const put = async (
   );
 
   return {
-    url: `https://${bucket.publicUrl}/${path}`,
+    url: new URL(path, bucket.publicUrl).toString(),
     etag: res.ETag,
     expiration: res.Expiration,
     versionId: res.VersionId,
