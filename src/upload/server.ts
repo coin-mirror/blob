@@ -4,7 +4,7 @@ import { validateHandleUploadBody } from "./types";
 import { type Bucket, getSecureUploadUrl } from "..";
 import { customAlphabet } from "nanoid";
 
-const genSecureFilename = customAlphabet(
+const genSecureFileprefix = customAlphabet(
   "0123456789abcdefghijklmnopqrstuvwxyz",
   32,
 );
@@ -75,7 +75,11 @@ export const uploadHandler = async (
       );
     }
 
-    const path = `${pathPrefix ?? ""}${genSecureFilename()}`;
+    const path = `${pathPrefix ?? ""}${genSecureFileprefix()}.${
+      body.contentType.split("/").pop() ||
+      body.filename.split(".").pop() ||
+      "dat"
+    }`;
     const url = await getSecureUploadUrl(bucket, path, {
       expiresIn: 3600,
     });
